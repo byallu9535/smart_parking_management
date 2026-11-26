@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking Management System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+    <div class="brand">🅿 SMART PARKING</div>
+    <div class="admin">Manager 👤</div>
+</header>
+
+<div class="layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h3>MAIN MENU</h3>
+
+        <a href="#dashboard" class="active">▦ Dashboard</a>
+        <a href="#parking">▣ Parking Slots</a>
+        <a href="#entry">＋ Vehicle Entry</a>
+        <a href="#exit">↗ Vehicle Exit</a>
+        <a href="#history">▤ Parking History</a>
+        <a href="#floors">▥ Floor Details</a>
+        <a href="#settings">⚙ Settings</a>
+    </aside>
+
+    <!-- Main Dashboard -->
+    <main class="main-content">
+
+        <section id="dashboard">
+            <h2>Parking Dashboard</h2>
+
+            <div class="stats">
+
+                <div class="stat-card">
+                    <p>Total Parking Space</p>
+                    <h1 id="total">0</h1>
+                    <span>All parking slots</span>
+                </div>
+
+                <div class="stat-card">
+                    <p>Total Booked</p>
+                    <h1 id="booked">0</h1>
+                    <span>Occupied slots</span>
+                </div>
+
+                <div class="stat-card">
+                    <p>Total Available</p>
+                    <h1 id="available">0</h1>
+                    <span>Free slots</span>
+                </div>
+
+                <div class="stat-card">
+                    <p>Occupancy Rate</p>
+                    <h1 id="occupancy">0%</h1>
+                    <span>Current usage</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Occupancy Details -->
+        <section class="panel" id="parking">
+
+            <div class="panel-heading">
+                <h2>Occupancy Details</h2>
+                <button onclick="refreshDashboard()">Refresh</button>
+            </div>
+
+            <div class="occupancy-layout">
+
+                <div class="floor-summary">
+                    <h3>Floor Summary</h3>
+                    <div id="floorSummary"></div>
+                </div>
+
+                <div class="slot-section">
+
+                    <h3>Parking Slot Overview</h3>
+
+                    <div class="legend">
+                        <span><i class="dot green"></i> Available</span>
+                        <span><i class="dot red"></i> Occupied</span>
+                    </div>
+
+                    <div id="floors">
+                        Loading parking slots...
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Vehicle Entry -->
+        <section class="panel" id="entry">
+
+            <h2>Add Parking / Vehicle Entry</h2>
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Vehicle Number *</label>
+                    <input
+                        type="text"
+                        id="vehicleNumber"
+                        placeholder="Example: KA36AB1234">
+                </div>
+
+                <div>
+                    <label>Parking Slot ID *</label>
+                    <input
+                        type="number"
+                        id="slotId"
+                        min="1"
+                        max="20"
+                        placeholder="Enter slot ID">
+                </div>
+
+            </div>
+
+            <button class="primary-btn" onclick="vehicleEntry()">
+                Save Vehicle Entry
+            </button>
+
+        </section>
+
+        <!-- Vehicle Exit -->
+        <section class="panel" id="exit">
+
+            <h2>Vehicle Exit</h2>
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Vehicle Number *</label>
+                    <input
+                        type="text"
+                        id="exitNumber"
+                        placeholder="Enter vehicle number">
+                </div>
+
+            </div>
+
+            <button class="exit-btn" onclick="vehicleExit()">
+                Confirm Vehicle Exit
+            </button>
+
+        </section>
+
+        <!-- Parking History -->
+        <section class="panel" id="history">
+
+            <div class="panel-heading">
+                <h2>All Parking Records</h2>
+                <button onclick="loadHistory()">Refresh</button>
+            </div>
+
+            <div class="table-tools">
+
+                <label>
+                    Show
+                    <select id="pageSize" onchange="renderHistory()">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="20">20</option>
+                    </select>
+                    entries
+                </label>
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search vehicle..."
+                    oninput="renderHistory()">
+
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Vehicle Number</th>
+                            <th>Slot</th>
+                            <th>Entry Time</th>
+                            <th>Exit Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="historyBody">
+                        <tr>
+                            <td colspan="6">Loading records...</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+            <div class="pagination">
+                <button onclick="changePage(-1)">Previous</button>
+                <span id="pageInfo">Page 1</span>
+                <button onclick="changePage(1)">Next</button>
+            </div>
+
+        </section>
+
+        <footer>
+            Smart Parking Management System |
+            Python Flask + SQLite
+        </footer>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
